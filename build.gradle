@@ -1,0 +1,66 @@
+buildscript {
+    repositories {
+        maven { url "http://artifacts.transferwise.com/artifactory/plugins-release" }
+    }
+}
+
+plugins {
+    id 'java'
+    id 'net.researchgate.release' version '2.4.0'
+}
+
+apply from: 'http://artifacts.transferwise.com/artifactory/ivy-release-local/com/transferwise/gradle-scripts/1.0.2/libUpload.gradle'
+
+jar {
+    baseName 'ua-parser'
+    manifest {
+        attributes("Implementation-Version": version)
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+group = 'ua-parser'
+
+processResources {
+    from("../uap-core") {
+        into("ua_parser")
+    }
+    from("../uap-core/test_resources") {
+        into("ua_parser")
+    }
+    from("../uap-core/tests") {
+        into("ua_parser")
+    }
+}
+
+repositories {
+    maven { url "http://artifacts.transferwise.com/artifactory/libs-release" }
+}
+
+dependencies {
+    compile 'org.yaml:snakeyaml:1.18'
+    compile 'commons-collections:commons-collections:3.2.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+}
+
+afterReleaseBuild.dependsOn publish
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.2.1'
+}
+
+release {
+    failOnUnversionedFiles = true
+    tagTemplate = '$name-$version'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}

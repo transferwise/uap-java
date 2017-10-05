@@ -7,7 +7,7 @@ The implementation uses the shared regex patterns and overrides from regexes.yam
 Build:
 ------
 
-    mvn package
+    gradle build
 
 Usage:
 --------
