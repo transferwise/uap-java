@@ -7,7 +7,7 @@ The implementation uses the shared regex patterns and overrides from regexes.yam
 Build:
 ------
 
-Clone [uap-core](https://github.com/ua-parser/uap-core) to the same root folder.
+Clone transferwise [uap-core](https://github.com/transferwise/uap-core) fork to the same root folder.
 
     gradle build
 
